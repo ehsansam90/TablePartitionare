@@ -1,5 +1,7 @@
 import hashlib
 from sqlalchemy import create_engine, Column, Integer, String, Text, Boolean, Float, JSON, MetaData, Table
+from dotenv import load_dotenv
+import os
 
 
 def assign_segment_md5(patient_id, num_partitions):
@@ -31,3 +33,27 @@ def map_python_to_sql(data_dict):
     for column, py_type in data_dict.items():
         sql_types[column] = type_mapping.get(py_type, 'TEXT')  # Default to TEXT if type is unknown
     return sql_types
+
+def get_connection_string(env_file_path=None):
+    # If an env_file_path is provided, use it to load the .env file
+    if env_file_path:
+        load_dotenv(dotenv_path=env_file_path)
+    else:
+        # Otherwise, load the .env file from the default location
+        load_dotenv()
+
+    # Retrieve credentials from the .env file
+    db_user = os.getenv("DB_USER")
+    db_password = os.getenv("DB_PASSWORD")
+    db_host = os.getenv("DB_HOST")
+    db_port = os.getenv("DB_PORT")
+    db_name = os.getenv("DB_NAME")
+
+    # Check if any credential is missing
+    if not all([db_user, db_password, db_host, db_port, db_name]):
+        raise ValueError("One or more database credentials are missing in .env file.")
+
+    # Form the connection string
+    connection_string = f"postgresql+psycopg2://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
+
+    return connection_string

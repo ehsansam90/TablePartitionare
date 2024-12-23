@@ -1,5 +1,5 @@
 from funcs import read_from_existing_table, create_partitioned_table, partition_existing_empty_table
-from help_funcs import map_python_to_sql, assign_segment_md5
+from help_funcs import map_python_to_sql, assign_segment_md5, get_connection_string
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import create_engine, MetaData, Table
 
@@ -21,9 +21,11 @@ from sqlalchemy import create_engine, MetaData, Table
 
 # create_partitioned_table(connection_string, "test", columns, num_partition)
 
-
 class TablePartitioner:
-    def __init__(self, connection_string, num_partition):
+    def __init__(self, cred_path, num_partition):
+        
+        connection_string = get_connection_string(env_file_path=cred_path)
+        
         self.connection_string = connection_string
         self.num_partition = num_partition
         self.engine = create_engine(self.connection_string)
@@ -79,10 +81,10 @@ if __name__ == "__main__":
     num_partitions = 15
     table_name = "test_table"
     
-    partitioner = TablePartitioner(connection_string, num_partitions)
+    partitioner = TablePartitioner("D:\lib\partition_db\.env", num_partitions)
     records = partitioner.read_table(table_name)
     records = partitioner.assign_partitions(records, partition_column="patient_id")
-    partitioner.create_partitioned_table("test3", records)
-    partitioner.move_data_to_partitioned_table("test3_partitioned",records)
+    partitioner.create_partitioned_table("test4", records)
+    partitioner.move_data_to_partitioned_table("test4_partitioned",records)
 
 

@@ -5,10 +5,10 @@ from setuptools import setup, find_packages
 
 # Define the setup for the package
 setup(
-    name="table_partitionare",  # Name of your package
-    version="2",  # Version of your package
-    author="Ehsan S.Mohammadi",  # Your name
-    author_email="ehsannsam@gmail.com",  # Your email
+    name="table_partitionare",  
+    version="1.0.0",  
+    author="Ehsan S.Mohammadi",  
+    author_email="ehsannsam@gmail.com", 
     description="A library for partitioning PostgreSQL tables",  # Short description of your package
     long_description=open("README.md").read(),  # Long description from README.md
     long_description_content_type="text/markdown",  # The format of the long description

@@ -102,29 +102,9 @@ def create_partitioned_table(engine, table_name, columns, n_partitions):
     print(f"Table '{table_name}_partitioned' partitioned by 'part' with {n_partitions} partitions created successfully!")
 
 
-    
-    
-def partition_existing_empty_table(connection_string, table_name, partition_column, n_partitions):
-    
-    engine = create_engine(connection_string)
-    with engine.connect() as conn:
-        # Step 1: Alter the table to enable partitioning
-        alter_sql = text(f"ALTER TABLE {table_name} PARTITION BY LIST ({partition_column});")
-        conn.execute(alter_sql)
-        
-        print(f"Table {table_name} is now partitioned by '{partition_column}'.")
 
-        # Step 2: Create the partitions for the table based on partition column values
-        for i in range(1, n_partitions + 1):
-            partition_name = f"{table_name}_part_{i}"
-            create_partition_sql = text(f"""
-            CREATE TABLE {partition_name} PARTITION OF {table_name}
-            FOR VALUES IN ({i});
-            """)
-            conn.execute(create_partition_sql)
-            print(f"Partition {partition_name} created.")
 
-# Example usage:
+
 
 
         

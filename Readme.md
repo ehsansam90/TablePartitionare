@@ -53,11 +53,13 @@ Environment Variables
 
 To avoid hardcoding database credentials, the library uses environment variables stored in a .env file. This file should contain the following variables:
 
+'''
 DB_USER=your_username
 DB_PASSWORD=your_password
 DB_HOST=your_host
 DB_PORT=your_port
 DB_NAME=your_database_name
+'''
 
 The python-dotenv library loads these credentials for secure database access.
 
@@ -67,21 +69,24 @@ How to Use the Library
 
 The library provides a TablePartitioner class to handle all operations:
 
-from partitioning_lib import TablePartitioner
+'from partitioning_lib import TablePartitioner'
 
 2. Initialize the Partitioning Class
 
 Create an instance of the TablePartitioner class by providing the path to the .env file and the number of partitions:
 
+'''
 num_partitions = 15  # Number of partitions you want to create
 partitioner = TablePartitioner("path/to/.env", num_partitions)
+'''
 
 3. Reading Data from an Existing Table
 
 Use the read_table() method to load data from an existing table:
-
+'''
 table_name = "test_table"
 records = partitioner.read_table(table_name)
+'''
 
 This returns the table data as a list of dictionaries, where each dictionary represents a row.
 
@@ -89,7 +94,7 @@ This returns the table data as a list of dictionaries, where each dictionary rep
 
 Assign partitions to the records based on a specified column (e.g., patient_id) using the assign_partitions() method:
 
-records = partitioner.assign_partitions(records, partition_column="patient_id")
+'records = partitioner.assign_partitions(records, partition_column="patient_id")'
 
 This adds a partition_key to each row, indicating the assigned partition.
 
@@ -111,9 +116,10 @@ Full Example Script
 
 from partitioning_lib import TablePartitioner
 
+'''
 if __name__ == "__main__":
     # Define the path to the .env file and parameters
-    env_path = "D:/lib/partition_db/.env"
+    env_path = "path/to/.env"
     num_partitions = 15
     table_name = "test_table"
 
@@ -131,6 +137,7 @@ if __name__ == "__main__":
 
     # Move the data to the partitioned table
     partitioner.move_data_to_partitioned_table("test_partitioned", records)
+    '''
 
 Error Handling
 
@@ -144,7 +151,9 @@ Data Insertion Errors: Raises an SQLAlchemyError if an error occurs while insert
 
 Example of Error Handling:
 
+'''
 try:
     partitioner.read_table("non_existent_table")
 except Exception as e:
     print(f"Error: {e}")
+    '''

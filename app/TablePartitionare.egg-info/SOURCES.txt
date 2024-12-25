@@ -1,0 +1,13 @@
+LICENSE.txt
+setup.py
+app/TablePartitionare.egg-info/PKG-INFO
+app/TablePartitionare.egg-info/SOURCES.txt
+app/TablePartitionare.egg-info/dependency_links.txt
+app/TablePartitionare.egg-info/requires.txt
+app/TablePartitionare.egg-info/top_level.txt
+app/partition_db/__init__.py
+app/partition_db/src/__init__.py
+app/partition_db/src/funcs.py
+app/partition_db/src/help_funcs.py
+app/partition_db/src/partition_db.py
+app/partition_db/src/utils.py

@@ -1,25 +1,8 @@
-from funcs import read_from_existing_table, create_partitioned_table, partition_existing_empty_table
-from help_funcs import map_python_to_sql, assign_segment_md5, get_connection_string
+from .funcs import read_from_existing_table, create_partitioned_table, partition_existing_empty_table
+from .help_funcs import map_python_to_sql, assign_segment_md5, get_connection_string
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import create_engine, MetaData, Table
 
-# num_partition = 20
-
-# connection_string = "postgresql+psycopg2://postgres:apolo@localhost:5432/partition_project"
-
-# dict_res = read_from_existing_table(connection_string=connection_string, table_name="test_table")
-
-
-# for record in dict_res:
-#     record['part'] = assign_segment_md5(record['patient_id'],num_partition)
-
-
-
-# columns = {c: type(t) for c, t in zip(dict_res[0].keys(), dict_res[0].values())}
-# columns = map_python_to_sql(columns)
-# print(columns)
-
-# create_partitioned_table(connection_string, "test", columns, num_partition)
 
 class TablePartitioner:
     def __init__(self, cred_path, num_partition):
@@ -74,17 +57,5 @@ class TablePartitioner:
         except SQLAlchemyError as e:
             print(f"Error inserting data into {table_name}: {e}")
             raise
-
-# Example usage
-if __name__ == "__main__":
-    connection_string = "postgresql+psycopg2://postgres:apolo@localhost:5432/partition_project"
-    num_partitions = 15
-    table_name = "test_table"
-    
-    partitioner = TablePartitioner("D:\lib\partition_db\.env", num_partitions)
-    records = partitioner.read_table(table_name)
-    records = partitioner.assign_partitions(records, partition_column="patient_id")
-    partitioner.create_partitioned_table("test4", records)
-    partitioner.move_data_to_partitioned_table("test4_partitioned",records)
 
 
